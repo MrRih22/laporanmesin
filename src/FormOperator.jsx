@@ -117,7 +117,7 @@ export default function FormOperator() {
 
               {/* Nama Mesin */}
               <div>
-                <label className="block text-[10px] sm:text-[11px] font-black text-slate-400 uppercase tracking-wider mb-1.5 sm:mb-2">Identitas Mesin / Unit</label>
+                <label className="block text-[10px] sm:text-[11px] font-black text-slate-400 uppercase tracking-wider mb-1.5 sm:mb-2">Mesin / Unit</label>
                 <div className={`relative rounded-xl transition-all ${activeCard === 'nama_mesin' ? 'ring-2 ring-blue-600/20 border-blue-600' : 'border-slate-200'}`}>
                   <input 
                     type="text" 
@@ -140,7 +140,7 @@ export default function FormOperator() {
               
               {/* Tanggal */}
               <div>
-                <label className="block text-[10px] sm:text-[11px] font-black text-slate-400 uppercase tracking-wider mb-1.5 sm:mb-2">Tanggal Kejadian</label>
+                <label className="block text-[10px] sm:text-[11px] font-black text-slate-400 uppercase tracking-wider mb-1.5 sm:mb-2">Tanggal</label>
                 <input 
                   type="date" 
                   name="tanggal_rusak" 
@@ -154,7 +154,7 @@ export default function FormOperator() {
 
               {/* Jam / Waktu Manual (--:--) */}
               <div>
-                <label className="block text-[10px] sm:text-[11px] font-black text-slate-400 uppercase tracking-wider mb-1.5 sm:mb-2">Jam Kejadian (--:--)</label>
+                <label className="block text-[10px] sm:text-[11px] font-black text-slate-400 uppercase tracking-wider mb-1.5 sm:mb-2">Jam Berhenti</label>
                 <input 
                   type="time" 
                   name="jam_rusak" 
