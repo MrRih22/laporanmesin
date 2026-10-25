@@ -59,36 +59,37 @@ export default function DashboardMTC() {
         }
     };
 
-    // Fungsi untuk memunculkan Push Notification di HP
-    const showMobileNotification = (item) => {
-        if ('Notification' in window && Notification.permission === 'granted') {
-            try {
-                navigator.serviceWorker.ready.then((registration) => {
-                    registration.showNotification('🚨 Laporan Kerusakan Baru!', {
-                        body: `Mesin: ${item.nama_mesin}\nPelapor: ${item.nama_operator}\nKendala: ${item.detail_kerusakan}`,
-                        icon: '/talo.png',
-                        badge: '/talo.png',
-                        vibrate: [300, 100, 300, 100, 300], // Getar ala WhatsApp
-                        tag: 'mtc-alert',
-                        requireInteraction: true
-                    });
-                });
-            } catch (err) {
-                // Fallback jika service worker belum siap
-                new Notification('🚨 Laporan Kerusakan Baru!', {
-                    body: `Mesin: ${item.nama_mesin}\n${item.detail_kerusakan}`,
-                    icon: '/talo.png'
-                });
-            }
-        }
-    };
+    // Fungsi untuk memunculkan Push Notification baru sebagai baris terpisah
+  const showMobileNotification = (item) => {
+    if ('Notification' in window && Notification.permission === 'granted') {
+      try {
+        navigator.serviceWorker.ready.then((registration) => {
+          registration.showNotification('🚨 Laporan Kerusakan Baru!', {
+            body: `Mesin: ${item.nama_mesin}\nPelapor: ${item.nama_operator}\nKendala: ${item.detail_kerusakan}`,
+            icon: '/talo.png',
+            badge: '/talo.png',
+            vibrate: [300, 100, 300, 100, 300],
+            tag: `mtc-alert-${item.id || Date.now()}`, // <--- TAG UNIK: Mencegah notifikasi lama tertimpa
+            renotify: true,
+            requireInteraction: true
+          });
+        });
+      } catch (err) {
+        new Notification('🚨 Laporan Kerusakan Baru!', {
+          body: `Mesin: ${item.nama_mesin}\n${item.detail_kerusakan}`,
+          icon: '/talo.png',
+          tag: `mtc-alert-${Date.now()}`
+        });
+      }
+    }
+  };
 
     useEffect(() => {
         const jumlahBaru = laporan.filter((item) => item.status === 'Baru').length;
         if (jumlahBaru > 0) {
-            document.title = `(${jumlahBaru}) Laporan Baru - MTC Command`;
+            document.title = `(${jumlahBaru}) Laporan Baru - MTC Dashboard `;
         } else {
-            document.title = 'MTC Command Center | Tatalogam Lestari';
+            document.title = 'MTC Dashboard Center | PT. Tatalogam Lestari';
         }
     }, [laporan]);
 
