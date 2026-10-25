@@ -28,7 +28,7 @@ export default function FormOperator() {
       const { error } = await supabase.from('laporan_mesin').insert([formData]);
       if (error) throw error;
       
-      setMessage({ type: 'success', text: 'Tiket berhasil dikirim ke Command Center MTC!' });
+      setMessage({ type: 'success', text: 'Tiket berhasil dikirim ke Divisi MTC!' });
       setFormData({
         nama_operator: '',
         nama_mesin: '',
