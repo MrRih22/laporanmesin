@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { supabase } from './supabase';
+import { useNavigate } from 'react-router-dom';
 
 export default function FormOperator() {
   const [formData, setFormData] = useState({
@@ -12,6 +13,7 @@ export default function FormOperator() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
   const [activeCard, setActiveCard] = useState(null);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -44,9 +46,10 @@ export default function FormOperator() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-100 via-slate-50 to-blue-50/30 flex items-center justify-center p-3 sm:p-6 lg:p-10 font-sans antialiased selection:bg-blue-600 selection:text-white">
       
+      {/* Container Utama */}
       <div className="bg-white/95 backdrop-blur-xl rounded-2xl sm:rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-200/80 w-full max-w-xl overflow-hidden transition-all duration-300">
         
-        {/* Header Responsif */}
+        {/* Header Responsif dengan Tombol Login */}
         <div className="px-5 sm:px-8 py-5 sm:py-7 bg-white border-b border-slate-100 flex items-center justify-between gap-3">
           <div className="flex items-center gap-3 sm:gap-4">
             <div className="w-11 h-11 sm:w-14 sm:h-14 bg-slate-900 rounded-xl sm:rounded-2xl flex items-center justify-center shadow-md shadow-slate-900/10 shrink-0">
@@ -57,12 +60,21 @@ export default function FormOperator() {
                 <span className="text-[9px] sm:text-[10px] font-extrabold tracking-widest text-blue-600 uppercase">PT Tatalogam Lestari</span>
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
               </div>
-              <h2 className="text-base sm:text-xl font-black tracking-tight text-slate-900 leading-tight">Maintenance Ticket System</h2>
+              <h2 className="text-base sm:text-xl font-black tracking-tight text-slate-900 leading-tight">Maintenance System</h2>
             </div>
           </div>
-          <div className="hidden xs:block px-3 py-1 rounded-full bg-slate-50 border border-slate-200 text-[11px] sm:text-xs font-bold text-slate-600 shadow-2xs">
-            Operator Portal
-          </div>
+
+          {/* Tombol Akses Login / Command Center untuk Tim MTC */}
+          <button 
+            onClick={() => navigate('/login')}
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-blue-600 text-white text-xs font-bold shadow-sm transition-all active:scale-95 shrink-0"
+            title="Masuk ke Dashboard MTC"
+          >
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+            </svg>
+            <span className="hidden xs:inline">Login MTC</span>
+          </button>
         </div>
 
         {/* Form Body */}
