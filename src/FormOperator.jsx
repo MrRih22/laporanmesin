@@ -60,7 +60,7 @@ export default function FormOperator() {
                 <span className="text-[9px] sm:text-[10px] font-extrabold tracking-widest text-blue-600 uppercase">PT Tatalogam Lestari</span>
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
               </div>
-              <h2 className="text-base sm:text-xl font-black tracking-tight text-slate-900 leading-tight">Maintenance System</h2>
+              <h2 className="text-base sm:text-xl font-black tracking-tight text-slate-900 leading-tight">Maintenance Ticket System</h2>
             </div>
           </div>
 
