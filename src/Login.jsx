@@ -52,7 +52,7 @@ export default function Login() {
             </div>
 
             <h2 className="text-2xl sm:text-3xl font-black tracking-tight leading-tight">
-              Portal Command Center MTC
+             Selamat Datang Di Portal Dashboard Center MTC
             </h2>
             <p className="text-blue-100/80 text-xs sm:text-sm mt-3 leading-relaxed">
               Sistem pemantauan dan manajemen tiket kerusakan mesin pabrik secara real-time untuk efisiensi produksi maksimal.
