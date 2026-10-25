@@ -5,10 +5,10 @@ self.addEventListener('push', function (event) {
     body: data.body || 'Ada kendala mesin baru yang dilaporkan.',
     icon: '/talo.png',
     badge: '/talo.png',
-    vibrate: [300, 100, 300, 100, 300], // Pola getar mirip WhatsApp
-    tag: 'mtc-floating-alert',
+    vibrate: [300, 100, 300, 100, 300],
+    tag: `mtc-alert-${Date.now()}`, // <--- Memastikan setiap notifikasi berdiri sendiri
     renotify: true,
-    requireInteraction: true, // Membuat notifikasi mengambang tetap ada sampai ditekan
+    requireInteraction: true,
     actions: [
       { action: 'open', title: 'Buka Dashboard' }
     ]
