@@ -158,7 +158,7 @@ export default function DashboardMTC() {
                 </div>
                 <div>
                     <h1 className="text-sm sm:text-lg font-bold tracking-tight text-slate-900 flex items-center gap-1.5 sm:gap-2">
-                    <span>MTC Command Center</span>
+                    <span>MTC Dashboard Center</span>
                     <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
                     </h1>
                     <p className="text-[10px] sm:text-xs text-slate-500 font-medium">PT Tatalogam Lestari • Maintenance Division</p>
