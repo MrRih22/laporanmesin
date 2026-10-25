@@ -29,7 +29,7 @@ export default function DashboardMTC() {
                 // 1. Bunyikan Suara Notifikasi (Ala WhatsApp)
                 playNotificationSound();
 
-                // 2. Munculkan Pop-up Notifikasi di Layar HP
+                // 2. Munculkan Pop-up Notifikasi Baris Baru di Layar HP
                 showMobileNotification(laporanBaru);
             }
         )
@@ -59,35 +59,35 @@ export default function DashboardMTC() {
         }
     };
 
-    // Fungsi untuk memunculkan Push Notification baru sebagai baris terpisah
-  const showMobileNotification = (item) => {
-    if ('Notification' in window && Notification.permission === 'granted') {
-      try {
-        navigator.serviceWorker.ready.then((registration) => {
-          registration.showNotification('🚨 Laporan Kerusakan Baru!', {
-            body: `Mesin: ${item.nama_mesin}\nPelapor: ${item.nama_operator}\nKendala: ${item.detail_kerusakan}`,
-            icon: '/talo.png',
-            badge: '/talo.png',
-            vibrate: [300, 100, 300, 100, 300],
-            tag: `mtc-alert-${item.id || Date.now()}`, // <--- TAG UNIK: Mencegah notifikasi lama tertimpa
-            renotify: true,
-            requireInteraction: true
-          });
-        });
-      } catch (err) {
-        new Notification('🚨 Laporan Kerusakan Baru!', {
-          body: `Mesin: ${item.nama_mesin}\n${item.detail_kerusakan}`,
-          icon: '/talo.png',
-          tag: `mtc-alert-${Date.now()}`
-        });
-      }
-    }
-  };
+    // Fungsi untuk memunculkan Push Notification baru sebagai baris terpisah (Tidak menimpa)
+    const showMobileNotification = (item) => {
+        if ('Notification' in window && Notification.permission === 'granted') {
+            try {
+                navigator.serviceWorker.ready.then((registration) => {
+                    registration.showNotification('🚨 Laporan Kerusakan Baru!', {
+                        body: `Mesin: ${item.nama_mesin}\nPelapor: ${item.nama_operator}\nKendala: ${item.detail_kerusakan}`,
+                        icon: '/talo.png',
+                        badge: '/talo.png',
+                        vibrate: [300, 100, 300, 100, 300],
+                        tag: `mtc-alert-${item.id || Date.now()}`, // <--- TAG UNIK: Mencegah notifikasi lama tertimpa
+                        renotify: true,
+                        requireInteraction: true
+                    });
+                });
+            } catch (err) {
+                new Notification('🚨 Laporan Kerusakan Baru!', {
+                    body: `Mesin: ${item.nama_mesin}\n${item.detail_kerusakan}`,
+                    icon: '/talo.png',
+                    tag: `mtc-alert-${Date.now()}`
+                });
+            }
+        }
+    };
 
     useEffect(() => {
         const jumlahBaru = laporan.filter((item) => item.status === 'Baru').length;
         if (jumlahBaru > 0) {
-            document.title = `(${jumlahBaru}) Laporan Baru - MTC Dashboard `;
+            document.title = `(${jumlahBaru}) Laporan Baru - MTC Dashboard`;
         } else {
             document.title = 'MTC Dashboard Center | PT. Tatalogam Lestari';
         }
@@ -161,7 +161,7 @@ export default function DashboardMTC() {
                     <span>MTC Command Center</span>
                     <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
                     </h1>
-                    <p className="text-[10px] sm:text-xs text-slate-500 font-medium">PT Tatalogam Lestari • Division</p>
+                    <p className="text-[10px] sm:text-xs text-slate-500 font-medium">PT Tatalogam Lestari • Maintenance Division</p>
                 </div>
                 </div>
                 
@@ -178,29 +178,43 @@ export default function DashboardMTC() {
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-6 sm:mb-8 pb-6 border-b border-slate-200">
             <div>
-                <h2 className="text-xl sm:text-3xl font-black tracking-tight text-slate-900">Dashboard Pemantauan Mesin</h2>
+                <h2 className="text-xl sm:text-3xl font-black tracking-tight text-slate-900">Dashboard Pemantauan Laporan Mesin</h2>
                 <p className="text-slate-500 text-xs sm:text-sm mt-1">Sistem manajemen tiket gangguan mesin pabrik secara real-time.</p>
             </div>
 
-            <div className="grid grid-cols-3 gap-1.5 sm:gap-2 bg-slate-200/70 p-1.5 rounded-2xl border border-slate-200 w-full lg:w-auto">
-                <button 
-                onClick={() => setFilterStatus('Semua')}
-                className={`px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-center transition-all font-bold text-[11px] sm:text-xs ${filterStatus === 'Semua' ? 'bg-white text-blue-600 shadow-xs' : 'text-slate-600 hover:text-slate-900'}`}
-                >
-                Semua ({totalLaporan})
-                </button>
-                <button 
-                onClick={() => setFilterStatus('Baru')}
-                className={`px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-center transition-all font-bold text-[11px] sm:text-xs ${filterStatus === 'Baru' ? 'bg-white text-red-600 shadow-xs' : 'text-slate-600 hover:text-slate-900'}`}
-                >
-                Menunggu ({jumlahMenunggu})
-                </button>
-                <button 
-                onClick={() => setFilterStatus('Selesai')}
-                className={`px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-center transition-all font-bold text-[11px] sm:text-xs ${filterStatus === 'Selesai' ? 'bg-white text-emerald-600 shadow-xs' : 'text-slate-600 hover:text-slate-900'}`}
-                >
-                Selesai ({jumlahSelesai})
-                </button>
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full lg:w-auto">
+                {/* Search Bar */}
+                <div className="relative">
+                    <input 
+                        type="text"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        placeholder="Cari mesin, pelapor..."
+                        className="bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 w-full sm:w-64 shadow-2xs"
+                    />
+                </div>
+
+                {/* Filter Tabs */}
+                <div className="grid grid-cols-3 gap-1.5 bg-slate-200/70 p-1.5 rounded-2xl border border-slate-200">
+                    <button 
+                    onClick={() => setFilterStatus('Semua')}
+                    className={`px-3 py-2 rounded-xl text-center transition-all font-bold text-[11px] sm:text-xs ${filterStatus === 'Semua' ? 'bg-white text-blue-600 shadow-xs' : 'text-slate-600 hover:text-slate-900'}`}
+                    >
+                    Semua ({totalLaporan})
+                    </button>
+                    <button 
+                    onClick={() => setFilterStatus('Baru')}
+                    className={`px-3 py-2 rounded-xl text-center transition-all font-bold text-[11px] sm:text-xs ${filterStatus === 'Baru' ? 'bg-white text-red-600 shadow-xs' : 'text-slate-600 hover:text-slate-900'}`}
+                    >
+                    Menunggu ({jumlahMenunggu})
+                    </button>
+                    <button 
+                    onClick={() => setFilterStatus('Selesai')}
+                    className={`px-3 py-2 rounded-xl text-center transition-all font-bold text-[11px] sm:text-xs ${filterStatus === 'Selesai' ? 'bg-white text-emerald-600 shadow-xs' : 'text-slate-600 hover:text-slate-900'}`}
+                    >
+                    Selesai ({jumlahSelesai})
+                    </button>
+                </div>
             </div>
             </div>
 
