@@ -1,8 +1,8 @@
-    import { useEffect, useState } from 'react';
-    import { supabase } from './supabase';
-    import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { supabase } from './supabase';
+import { useNavigate } from 'react-router-dom';
 
-    export default function DashboardMTC() {
+export default function DashboardMTC() {
     const [laporan, setLaporan] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [filterStatus, setFilterStatus] = useState('Semua');
@@ -12,7 +12,7 @@
     useEffect(() => {
         // Minta izin memunculkan notifikasi browser saat pertama kali buka dashboard
         if ('Notification' in window && Notification.permission !== 'granted') {
-        Notification.requestPermission();
+            Notification.requestPermission();
         }
 
         fetchLaporan();
@@ -23,72 +23,72 @@
             'postgres_changes',
             { event: 'INSERT', schema: 'public', table: 'laporan_mesin' },
             (payload) => {
-            const laporanBaru = payload.new;
-            setLaporan((prev) => [laporanBaru, ...prev]);
+                const laporanBaru = payload.new;
+                setLaporan((prev) => [laporanBaru, ...prev]);
 
-            // 1. Bunyikan Suara Notifikasi (Ala WhatsApp)
-            playNotificationSound();
+                // 1. Bunyikan Suara Notifikasi (Ala WhatsApp)
+                playNotificationSound();
 
-            // 2. Munculkan Pop-up Notifikasi di Layar HP
-            showMobileNotification(laporanBaru);
+                // 2. Munculkan Pop-up Notifikasi di Layar HP
+                showMobileNotification(laporanBaru);
             }
         )
         .on(
             'postgres_changes',
             { event: 'UPDATE', schema: 'public', table: 'laporan_mesin' },
             (payload) => {
-            setLaporan((prev) =>
-                prev.map((item) => (item.id === payload.new.id ? { ...item, ...payload.new } : item))
-            );
+                setLaporan((prev) =>
+                    prev.map((item) => (item.id === payload.new.id ? { ...item, ...payload.new } : item))
+                );
             }
         )
         .subscribe();
 
         return () => {
-        supabase.removeChannel(channel);
+            supabase.removeChannel(channel);
         };
     }, []);
 
     // Fungsi untuk memutar suara notifikasi
     const playNotificationSound = () => {
         try {
-        const audio = new Audio('/notif.mp3'); // Pastikan file ada di folder public
-        audio.play().catch((e) => console.log('Audio autoplay blocked:', e));
+            const audio = new Audio('/notif.mp3'); // Pastikan file ada di folder public
+            audio.play().catch((e) => console.log('Audio autoplay blocked:', e));
         } catch (err) {
-        console.log('Gagal memutar suara:', err);
+            console.log('Gagal memutar suara:', err);
         }
     };
 
     // Fungsi untuk memunculkan Push Notification di HP
     const showMobileNotification = (item) => {
         if ('Notification' in window && Notification.permission === 'granted') {
-        try {
-            navigator.serviceWorker.ready.then((registration) => {
-            registration.showNotification('🚨 Laporan Kerusakan Baru!', {
-                body: `Mesin: ${item.nama_mesin}\nPelapor: ${item.nama_operator}\nKendala: ${item.detail_kerusakan}`,
-                icon: '/talo.png',
-                badge: '/talo.png',
-                vibrate: [200, 100, 200], // Getar di HP Android
-                tag: 'mtc-alert',
-                requireInteraction: true
-            });
-            });
-        } catch (err) {
-            // Fallback jika service worker belum siap
-            new Notification('🚨 Laporan Kerusakan Baru!', {
-            body: `Mesin: ${item.nama_mesin} - ${item.detail_kerusakan}`,
-            icon: '/talo.png'
-            });
-        }
+            try {
+                navigator.serviceWorker.ready.then((registration) => {
+                    registration.showNotification('🚨 Laporan Kerusakan Baru!', {
+                        body: `Mesin: ${item.nama_mesin}\nPelapor: ${item.nama_operator}\nKendala: ${item.detail_kerusakan}`,
+                        icon: '/talo.png',
+                        badge: '/talo.png',
+                        vibrate: [300, 100, 300, 100, 300], // Getar ala WhatsApp
+                        tag: 'mtc-alert',
+                        requireInteraction: true
+                    });
+                });
+            } catch (err) {
+                // Fallback jika service worker belum siap
+                new Notification('🚨 Laporan Kerusakan Baru!', {
+                    body: `Mesin: ${item.nama_mesin}\n${item.detail_kerusakan}`,
+                    icon: '/talo.png'
+                });
+            }
         }
     };
 
     useEffect(() => {
         const jumlahBaru = laporan.filter((item) => item.status === 'Baru').length;
         if (jumlahBaru > 0) {
-        document.title = `(${jumlahBaru}) Laporan Baru - MTC Command`;
+            document.title = `(${jumlahBaru}) Laporan Baru - MTC Command`;
         } else {
-        document.title = 'MTC Command Center | Tatalogam Lestari';
+            document.title = 'MTC Command Center | Tatalogam Lestari';
         }
     }, [laporan]);
 
@@ -108,7 +108,7 @@
     const handleSelesai = async (id) => {
         setLoadingId(id);
         setLaporan((prev) =>
-        prev.map((item) => (item.id === id ? { ...item, status: 'Selesai' } : item))
+            prev.map((item) => (item.id === id ? { ...item, status: 'Selesai' } : item))
         );
 
         const { error } = await supabase
@@ -117,10 +117,10 @@
         .eq('id', id);
 
         if (error) {
-        alert('Gagal mengubah status: ' + error.message);
-        setLaporan((prev) =>
-            prev.map((item) => (item.id === id ? { ...item, status: 'Baru' } : item))
-        );
+            alert('Gagal mengubah status: ' + error.message);
+            setLaporan((prev) =>
+                prev.map((item) => (item.id === id ? { ...item, status: 'Baru' } : item))
+            );
         }
         setLoadingId(null);
     };
@@ -223,7 +223,7 @@
                         {item.nama_mesin}
                         </h3>
                         <p className="text-[11px] sm:text-xs text-slate-500 font-medium flex items-center gap-1.5 mt-1">
-                        <span>{item.tanggal_rusak} • {item.jam_rusak || '--:--'}</span>
+                            <span>{item.tanggal_rusak} • {item.jam_rusak || '--:--'}</span>
                         </p>
                     </div>
 
@@ -276,4 +276,4 @@
         </main>
         </div>
     );
-    }
+}
