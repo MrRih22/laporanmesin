@@ -127,7 +127,7 @@ export default function DashboardMTC() {
     };
 
     const handleBroadcastWA = (item) => {
-        const pesan = `*🚨 LAPORAN KERUSAKAN MESIN 🚨*%0A%0A*Mesin:* ${item.nama_mesin}%0A*Operator:* ${item.nama_operator}%0A*Waktu:* ${item.tanggal_rusak} | ${item.jam_rusak || '--:--'}%0A*Detail:* ${item.detail_kerusakan}%0A%0AMohon tim MTC segera merapat ke lokasi.`;
+        const pesan = `* LAPORAN KERUSAKAN MESIN *%0A%0A*Mesin:* ${item.nama_mesin}%0A*Operator:* ${item.nama_operator}%0A*Waktu:* ${item.tanggal_rusak} | ${item.jam_rusak || '--:--'}%0A*Detail:* ${item.detail_kerusakan}%0A%0AMohon tim MTC segera merapat ke lokasi.`;
         window.open(`https://wa.me/?text=${pesan}`, '_blank');
     };
 
