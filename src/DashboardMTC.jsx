@@ -262,7 +262,7 @@ export default function DashboardMTC() {
                         <div>
                         <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Detail Kendala</span>
                         <div className="bg-slate-50 rounded-xl p-3 sm:p-3.5 border border-slate-200/80 text-slate-700 text-xs sm:text-sm leading-relaxed">
-                            "{item.detail_kerusakan}"
+                            {item.detail_kerusakan}
                         </div>
                         </div>
                     </div>
