@@ -1,0 +1,21 @@
+{
+  "short_name": "MTC System",
+  "name": "PT Tatalogam Lestari - MTC System",
+  "icons": [
+    {
+      "src": "/talo.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/talo.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#ffffff",
+  "theme_color": "#0f172a",
+  "display": "standalone",
+  "orientation": "portrait"
+}
